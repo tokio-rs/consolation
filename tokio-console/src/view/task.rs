@@ -9,6 +9,7 @@ use crate::{
         help::HelpText,
     },
 };
+use ratatui::widgets::Wrap;
 use ratatui::{
     layout::{self, Layout},
     text::{Span, Spans, Text},
@@ -131,8 +132,8 @@ impl TaskView {
             .direction(layout::Direction::Horizontal)
             .constraints(
                 [
-                    layout::Constraint::Percentage(50),
-                    layout::Constraint::Percentage(50),
+                    layout::Constraint::Percentage(60),
+                    layout::Constraint::Percentage(40),
                 ]
                 .as_ref(),
             )
@@ -156,16 +157,8 @@ impl TaskView {
         ]));
 
         let title = "Location: ";
-        let location_max_width = stats_area[0].width as usize - 2 - title.len(); // NOTE: -2 for the border
-        let location = if task.location().len() > location_max_width {
-            let ellipsis = styles.if_utf8("\u{2026}", "...");
-            let start = task.location().len() - location_max_width + ellipsis.chars().count();
-            format!("{}{}", ellipsis, &task.location()[start..])
-        } else {
-            task.location().to_string()
-        };
 
-        overview.push(Spans::from(vec![bold(title), Span::raw(location)]));
+        overview.push(Spans::from(vec![bold(title), Span::raw(task.location())]));
 
         let total = task.total(now);
 
@@ -195,20 +188,20 @@ impl TaskView {
             Span::from(format!("{})", task.waker_drops())),
         ])];
 
-        let mut wakeups = vec![
+        let wakeups = vec![
             bold("Woken: "),
             Span::from(format!("{} times", task.wakes())),
         ];
 
+        waker_stats.push(Spans::from(wakeups));
+
         // If the task has been woken, add the time since wake to its stats as well.
         if let Some(since) = task.since_wake(now) {
-            wakeups.reserve(3);
-            wakeups.push(Span::raw(", "));
-            wakeups.push(bold("last woken:"));
-            wakeups.push(Span::from(format!(" {:?} ago", since)));
+            waker_stats.push(Spans::from(vec![
+                bold("Last woken:"),
+                Span::from(format!(" {:?} ago", since)),
+            ]));
         }
-
-        waker_stats.push(Spans::from(wakeups));
 
         if task.self_wakes() > 0 {
             waker_stats.push(Spans::from(vec![
@@ -229,7 +222,9 @@ impl TaskView {
             frame.render_widget(warnings, warnings_area);
         }
 
-        let task_widget = Paragraph::new(overview).block(styles.border_block().title("Task"));
+        let task_widget = Paragraph::new(overview)
+            .wrap(Wrap { trim: true })
+            .block(styles.border_block().title("Task"));
         let wakers_widget = Paragraph::new(waker_stats).block(styles.border_block().title("Waker"));
 
         let poll_percentiles_title = "Poll Times Percentiles";
