@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.1.14 - (2024-12-26)
+
+
+### Added
+
+- Add the WatchState API (#582) ([7c1f9f2](https://github.com/tokio-rs/console/commit/7c1f9f216f499a0309ecf597c721252186e72c82))
+- Improve error msg when state streaming API is unimplemented (#598) ([6ef148a](https://github.com/tokio-rs/console/commit/6ef148a33fe71a682338bd65dd9271fd043086f2))
+
+
 ## 0.1.13 - (2024-10-24)
 
 
