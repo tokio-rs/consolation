@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.9.0 - (2024-12-26)
+
+
+### Added
+
+- Add the WatchState API (#582) ([7c1f9f2](https://github.com/tokio-rs/console/commit/7c1f9f216f499a0309ecf597c721252186e72c82))
+
+### Fixed
+
+- Bump minimum version of tonic (#593) ([1f41b61](https://github.com/tokio-rs/console/commit/1f41b61fbada02d84cfa85911e66eb0078cae596))
+
+
 ## 0.8.1 - (2024-10-24)
 
 _No outward facing changes_

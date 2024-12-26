@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.4.2 - (2024-12-26)
+
+
+### Added
+
+- Add the WatchState API (#582) ([7c1f9f2](https://github.com/tokio-rs/console/commit/7c1f9f216f499a0309ecf597c721252186e72c82))
+
+### Documented
+
+- Fix typo in doc comment ([3dbca7a](https://github.com/tokio-rs/console/commit/3dbca7a76e581d15ac598adc82e0c465d530de36))
+
+
 ## 0.4.1 - (2024-10-24)
 
 
