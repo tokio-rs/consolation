@@ -511,3 +511,7 @@ what is implemented by a pull request.
 * **S-refactor**: This is a refactor. This label describes proposed or
   implemented changes that are related to improve code quality or set up for
   future changes, but shouldn't effect behavior, fix bugs, or add new APIs.
+
+## Releases
+
+TBD: This section will describe the release process.
