@@ -1,7 +1,4 @@
 #![doc = include_str!("../README.md")]
-use console_api as proto;
-use proto::{instrument::instrument_server::InstrumentServer, resources::resource};
-use serde::Serialize;
 use std::{
     cell::RefCell,
     fmt,
@@ -12,6 +9,10 @@ use std::{
     },
     time::{Duration, Instant},
 };
+
+use console_api as proto;
+use proto::{instrument::instrument_server::InstrumentServer, resources::resource};
+use serde::Serialize;
 use thread_local::ThreadLocal;
 #[cfg(unix)]
 use tokio::net::UnixListener;
@@ -40,13 +41,12 @@ pub(crate) mod sync;
 mod visitors;
 
 pub use aggregator::Aggregator;
+pub use builder::{init, spawn};
 pub use builder::{Builder, ServerAddr};
 use callsites::Callsites;
 use record::Recorder;
 use stack::SpanStack;
 use visitors::{AsyncOpVisitor, ResourceVisitor, ResourceVisitorResult, TaskVisitor, WakerVisitor};
-
-pub use builder::{init, spawn};
 
 use crate::visitors::{PollOpVisitor, StateUpdateVisitor};
 
@@ -349,7 +349,8 @@ impl ConsoleLayer {
     /// [environment variable]: `Builder::with_default_env`
     pub const DEFAULT_PUBLISH_INTERVAL: Duration = Duration::from_secs(1);
 
-    /// By default, completed spans are retained for one hour.
+    /// By default, completed spans are retained for six seconds, which
+    /// matches tokio-console's `retain_for` display period.
     ///
     /// Note that methods like [`init`][`crate::init`] and
     /// [`spawn`][`crate::spawn`] will take the value from the
@@ -359,7 +360,7 @@ impl ConsoleLayer {
     /// See also [`Builder::retention`].
     ///
     /// [environment variable]: `Builder::with_default_env`
-    pub const DEFAULT_RETENTION: Duration = Duration::from_secs(60 * 60);
+    pub const DEFAULT_RETENTION: Duration = Duration::from_secs(6);
 
     /// The default maximum value for task poll duration histograms.
     ///
